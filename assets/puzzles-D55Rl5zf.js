@@ -1,0 +1,1 @@
+import{i as e}from"./chunk-FLK6AZKB-DyfrLHow.js";export{e as cube3x3x3};
