@@ -1,0 +1,30 @@
+{
+  "name": "CUBO 3×3! — Impara, risolvi, allenati",
+  "short_name": "CUBO 3×3!",
+  "description": "Guida interattiva al cubo 3×3 con teoria, notazione, due metodi e disegni animati.",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080d18",
+  "theme_color": "#080d18",
+  "categories": [
+    "education",
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
