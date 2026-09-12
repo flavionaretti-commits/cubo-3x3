@@ -2,6 +2,7 @@
   "name": "CUBO 3×3! — Impara, risolvi, allenati",
   "short_name": "CUBO 3×3!",
   "description": "Guida interattiva al cubo 3×3 con teoria, notazione, due metodi e disegni animati.",
+  "id": "/cubo-3x3/",
   "lang": "it",
   "start_url": "./",
   "scope": "./",

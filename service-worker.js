@@ -1,4 +1,5 @@
 const CACHE_NAME = "cubo-3x3-github-v1";
+const CACHE_PREFIX = "cubo-3x3-";
 const INDEX_URL = new URL("./index.html", self.location.href).toString();
 const PRECACHE_URLS = [
   "./",
@@ -36,7 +37,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
