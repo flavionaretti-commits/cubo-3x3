@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080d18">
+  <title>PIXEL ART · CUBO 3×3!</title>
+  <meta name="description" content="Laboratorio Pixel Art con 9 e 30 cubi di Rubik, sfide a squadre, livelli di difficoltà ed editor creativo.">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./pixel-art.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Torna a CUBO 3×3!">
+        <span class="brand-grid" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </span>
+        <span><strong>PIXEL ART</strong><small>CUBO 3×3!</small></span>
+      </a>
+      <div class="top-actions">
+        <button id="themeBtn" class="icon-btn" title="Giorno / notte" aria-label="Cambia tema">☀</button>
+        <button id="soundBtn" class="icon-btn" title="Suoni" aria-label="Attiva o disattiva i suoni">🔊</button>
+        <button id="fullBtn" class="icon-btn" title="Proiezione" aria-label="Modalità proiezione">⛶</button>
+        <a class="icon-btn home-btn" href="./" title="CUBO 3×3!" aria-label="Torna all'app principale">⌂</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="eyebrow">LABORATORIO CREATIVO</span>
+        <h1>Il cubo diventa un <em>pixel.</em></h1>
+        <p>Costruisci mosaici con le facce dei cubi, lavora in squadra e prova a battere il tempo.</p>
+      </div>
+      <div class="hero-mosaic" aria-hidden="true" id="heroMosaic"></div>
+    </section>
+
+    <nav class="tabs" aria-label="Sezioni Pixel Art">
+      <button class="tab active" data-tab="challenge">9 CUBI</button>
+      <button class="tab" data-tab="finale">GRAN FINALE</button>
+      <button class="tab" data-tab="editor">CREA TU</button>
+      <button class="tab" data-tab="guide">ISTRUZIONI</button>
+    </nav>
+
+    <section id="challenge" class="panel active">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">SFIDA A SQUADRE</span>
+          <h2>18 modelli · 9 cubi</h2>
+          <p>Ogni cubo corrisponde a un blocco 3×3. Conta soltanto la faccia anteriore.</p>
+        </div>
+        <button id="labBtn" class="primary">▶ INIZIA LA SFIDA</button>
+      </div>
+
+      <div class="challenge-layout">
+        <aside class="gallery-card">
+          <div class="card-head">
+            <strong>Scegli il modello</strong>
+            <span id="modelCount">1 / 18</span>
+          </div>
+          <div id="patternGallery" class="pattern-gallery"></div>
+        </aside>
+
+        <section class="stage-card">
+          <div class="stage-toolbar">
+            <div>
+              <span class="label">MODELLO</span>
+              <strong id="modelTitle">Modello 1</strong>
+            </div>
+            <div class="difficulty" role="group" aria-label="Difficoltà">
+              <button data-diff="easy" class="active">Facile</button>
+              <button data-diff="medium">Medio</button>
+              <button data-diff="hard">Difficile</button>
+              <button data-diff="veryhard">Molto difficile</button>
+            </div>
+          </div>
+
+          <div class="stage-main">
+            <div id="mainGrid" class="pixel-grid nine easy" aria-label="Modello Pixel Art"></div>
+            <div class="stage-actions">
+              <button id="splitBtn" class="secondary">▦ DIVIDI NEI 9 CUBI</button>
+              <button id="prevBtn" class="round" aria-label="Modello precedente">‹</button>
+              <button id="nextBtn" class="round" aria-label="Modello successivo">›</button>
+            </div>
+          </div>
+
+          <div id="splitArea" class="split-area" hidden>
+            <div class="split-copy">
+              <span class="eyebrow">COSTRUZIONE</span>
+              <h3>Un cubo alla volta</h3>
+              <p>Il quadratino centrale è evidenziato: determina quale faccia del cubo deve stare davanti.</p>
+            </div>
+            <div id="cubeBlocks" class="cube-blocks"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="finale" class="panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">GRAN FINALE</span>
+          <h2>30 cubi · tutti insieme!</h2>
+          <p>Tre squadre costruiscono parti diverse dello stesso mosaico. Alla fine si uniscono le tre fasce.</p>
+        </div>
+      </div>
+
+      <div class="finale-layout">
+        <section class="stage-card">
+          <div class="stage-toolbar">
+            <div>
+              <span class="label">MODELLO</span>
+              <strong>Mario · 15 × 18 pixel</strong>
+            </div>
+            <div class="difficulty finale-diff" role="group" aria-label="Difficoltà Gran Finale">
+              <button data-fdiff="easy" class="active">Facile</button>
+              <button data-fdiff="medium">Medio</button>
+              <button data-fdiff="hard">Difficile</button>
+              <button data-fdiff="veryhard">Molto difficile</button>
+            </div>
+          </div>
+          <div class="finale-canvas-wrap">
+            <div id="marioGrid" class="pixel-grid finale easy" aria-label="Gran Finale Mario"></div>
+          </div>
+        </section>
+
+        <aside class="teams-card">
+          <span class="eyebrow">DIVISIONE DEL LAVORO</span>
+          <h3>10 cubi per squadra</h3>
+          <div class="team-buttons">
+            <button data-team="all" class="active"><b>TUTTO</b><span>Assembla il mosaico</span></button>
+            <button data-team="1"><b>SQUADRA 1</b><span>Parte alta · 10 cubi</span></button>
+            <button data-team="2"><b>SQUADRA 2</b><span>Parte centrale · 10 cubi</span></button>
+            <button data-team="3"><b>SQUADRA 3</b><span>Parte bassa · 10 cubi</span></button>
+          </div>
+          <div class="team-tip">
+            <strong>Strategia</strong>
+            <p>Ogni squadra può lavorare sulla propria fascia senza vedere le altre. Alla fine premi <b>TUTTO</b> per controllare l'immagine completa.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="editor" class="panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">CREA TU</span>
+          <h2>Disegna il tuo mosaico</h2>
+          <p>Scegli un colore e dipingi. Le linee più spesse mostrano i confini dei singoli cubi.</p>
+        </div>
+      </div>
+
+      <div class="editor-layout">
+        <aside class="editor-tools">
+          <div class="tool-group">
+            <span class="label">FORMATO</span>
+            <div class="segmented">
+              <button data-size="9x9" class="active">9 cubi · 9×9</button>
+              <button data-size="15x18">30 cubi · 15×18</button>
+            </div>
+          </div>
+          <div class="tool-group">
+            <span class="label">COLORI DEL CUBO</span>
+            <div id="palette" class="palette"></div>
+          </div>
+          <div class="editor-actions">
+            <button id="undoEdit" class="secondary">↶ Annulla</button>
+            <button id="redoEdit" class="secondary">↷ Ripeti</button>
+            <button id="clearEdit" class="secondary danger">⌫ Cancella</button>
+            <button id="splitEdit" class="primary">▦ VEDI I CUBI</button>
+          </div>
+          <p class="save-note">Il disegno viene salvato automaticamente su questo dispositivo.</p>
+        </aside>
+
+        <section class="editor-stage">
+          <div id="editorGrid" class="pixel-grid editor nine easy" aria-label="Editor Pixel Art"></div>
+        </section>
+      </div>
+
+      <div id="editorSplit" class="split-area editor-split" hidden>
+        <div class="split-copy">
+          <span class="eyebrow">SCOMPOSIZIONE</span>
+          <h3 id="editorSplitTitle">9 cubi da costruire</h3>
+          <p>Ogni scheda rappresenta la faccia anteriore di un cubo.</p>
+        </div>
+        <div id="editorBlocks" class="cube-blocks"></div>
+      </div>
+    </section>
+
+    <section id="guide" class="panel">
+      <div class="guide-grid">
+        <article>
+          <span class="step">1</span>
+          <h3>Osserva il modello</h3>
+          <p>Ogni faccia è una griglia 3×3. Con 9 cubi ottieni un mosaico 9×9.</p>
+        </article>
+        <article>
+          <span class="step">2</span>
+          <h3>Parti dal centro</h3>
+          <p>Il colore centrale della faccia determina l'intera faccia: scegli prima quella corretta.</p>
+        </article>
+        <article>
+          <span class="step">3</span>
+          <h3>Conta solo il davanti</h3>
+          <p>Non importa cosa succede sulle altre facce del cubo: per il mosaico conta soltanto quella anteriore.</p>
+        </article>
+        <article>
+          <span class="step">4</span>
+          <h3>Controlla prima dello stop</h3>
+          <p>Posizione, ordine e orientamento dei nove cubi devono coincidere con il modello.</p>
+        </article>
+      </div>
+
+      <section class="roles-card">
+        <span class="eyebrow">RUOLI DELLA SQUADRA</span>
+        <h2>Tutti hanno un compito</h2>
+        <div class="roles">
+          <div><b>2</b><span>Lettori modello</span></div>
+          <div><b>5</b><span>Costruttori</span></div>
+          <div><b>1</b><span>Controllore</span></div>
+          <div><b>1</b><span>Assemblatore</span></div>
+          <div><b>1</b><span>Segna-tempo</span></div>
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      <span>Laboratorio ideato dal prof. Flavio Naretti</span>
+      <a href="./">← Torna a CUBO 3×3!</a>
+    </footer>
+  </main>
+
+  <dialog id="labDialog" class="lab-dialog">
+    <form method="dialog">
+      <button class="dialog-close" aria-label="Chiudi">×</button>
+    </form>
+    <div id="labSetup" class="lab-setup">
+      <span class="eyebrow">SFIDA A SQUADRE</span>
+      <h2 id="labModelTitle">Modello 1</h2>
+      <p>Obiettivo: creare il mosaico corretto nel minor tempo possibile, lavorando insieme.</p>
+      <div class="roles compact">
+        <div><b>2</b><span>Lettori</span></div>
+        <div><b>5</b><span>Costruttori</span></div>
+        <div><b>1</b><span>Controllore</span></div>
+        <div><b>1</b><span>Assemblatore</span></div>
+        <div><b>1</b><span>Segna-tempo</span></div>
+      </div>
+      <button id="countdownBtn" class="primary huge">3 · 2 · 1 · VIA!</button>
+    </div>
+
+    <div id="countdown" class="countdown" hidden>3</div>
+
+    <div id="labRun" class="lab-run" hidden>
+      <span class="eyebrow">CRONOMETRO</span>
+      <div id="timer" class="timer">00:00.0</div>
+      <div class="counter-row">
+        <div>
+          <span>Errori trovati</span>
+          <div class="counter"><button data-counter="errors" data-step="-1">−</button><strong id="errors">0</strong><button data-counter="errors" data-step="1">+</button></div>
+        </div>
+        <div>
+          <span>Correzioni</span>
+          <div class="counter"><button data-counter="fixes" data-step="-1">−</button><strong id="fixes">0</strong><button data-counter="fixes" data-step="1">+</button></div>
+        </div>
+      </div>
+      <div class="timer-actions">
+        <button id="stopTimer" class="primary huge">■ STOP</button>
+        <button id="resetTimer" class="secondary">↻ Azzera</button>
+      </div>
+      <div id="lastResult" class="last-result" hidden></div>
+    </div>
+  </dialog>
+
+  <script src="./pixel-art.js" defer></script>
+</body>
+</html>
