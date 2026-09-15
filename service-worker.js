@@ -1,4 +1,4 @@
-const CACHE_NAME = "cubo-3x3-github-v2-pixelart";
+const CACHE_NAME = "cubo-3x3-github-v3-pixelart-gallery";
 const CACHE_PREFIX = "cubo-3x3-";
 const INDEX_URL = new URL("./index.html", self.location.href).toString();
 const PIXEL_URL = new URL("./pixel-art.html", self.location.href).toString();
