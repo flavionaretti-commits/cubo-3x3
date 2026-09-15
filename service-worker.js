@@ -1,9 +1,14 @@
-const CACHE_NAME = "cubo-3x3-github-v1";
+const CACHE_NAME = "cubo-3x3-github-v2-pixelart";
 const CACHE_PREFIX = "cubo-3x3-";
 const INDEX_URL = new URL("./index.html", self.location.href).toString();
+const PIXEL_URL = new URL("./pixel-art.html", self.location.href).toString();
 const PRECACHE_URLS = [
   "./",
   "./index.html",
+  "./pixel-art.html",
+  "./pixel-art.css",
+  "./pixel-art.js",
+  "./pixel-art-link.js",
   "./manifest.webmanifest",
   "./favicon.svg",
   "./apple-touch-icon.png",
@@ -29,8 +34,29 @@ const PRECACHE_URLS = [
   "./assets/twisty-dynamic-3d-VGZIQ64W-CtkyPOlb.js"
 ].map((item) => new URL(item, self.location.href).toString());
 
+async function addPixelArtEntry(response) {
+  if (!response || !response.ok) return response;
+  const type = response.headers.get("content-type") || "";
+  if (!type.includes("text/html")) return response;
+  const text = await response.text();
+  if (text.includes("pixel-art-link.js")) {
+    return new Response(text, { status: response.status, statusText: response.statusText, headers: response.headers });
+  }
+  const injected = text.replace("</body>", '<script src="./pixel-art-link.js" defer></script></body>');
+  return new Response(injected, { status: response.status, statusText: response.statusText, headers: response.headers });
+}
+
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)));
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(PRECACHE_URLS);
+    try {
+      const response = await fetch(INDEX_URL, { cache: "no-store" });
+      const enhanced = await addPixelArtEntry(response);
+      await cache.put(INDEX_URL, enhanced.clone());
+      await cache.put(new URL("./", self.location.href).toString(), enhanced.clone());
+    } catch (_) {}
+  })());
   self.skipWaiting();
 });
 
@@ -50,15 +76,32 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(INDEX_URL, copy));
-          return response;
-        })
-        .catch(() => caches.match(INDEX_URL))
-    );
+    if (url.href === PIXEL_URL || url.pathname.endsWith("/pixel-art.html")) {
+      event.respondWith(
+        fetch(request)
+          .then((response) => {
+            if (response.ok) caches.open(CACHE_NAME).then((cache) => cache.put(PIXEL_URL, response.clone()));
+            return response;
+          })
+          .catch(() => caches.match(PIXEL_URL))
+      );
+      return;
+    }
+
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
+        const enhanced = await addPixelArtEntry(response);
+        const copy = enhanced.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(INDEX_URL, copy.clone());
+          cache.put(new URL("./", self.location.href).toString(), copy);
+        });
+        return enhanced;
+      } catch (_) {
+        return (await caches.match(INDEX_URL)) || (await caches.match(new URL("./", self.location.href).toString()));
+      }
+    })());
     return;
   }
 
