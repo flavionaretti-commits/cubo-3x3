@@ -39,11 +39,13 @@ async function addPixelArtEntry(response) {
   const type = response.headers.get("content-type") || "";
   if (!type.includes("text/html")) return response;
   const text = await response.text();
-  if (text.includes("pixel-art-link.js")) {
-    return new Response(text, { status: response.status, statusText: response.statusText, headers: response.headers });
-  }
-  const injected = text.replace("</body>", '<script src="./pixel-art-link.js" defer></script></body>');
-  return new Response(injected, { status: response.status, statusText: response.statusText, headers: response.headers });
+  const enhancedText = text.includes("pixel-art-link.js")
+    ? text
+    : text.replace("</body>", '<script src="./pixel-art-link.js" defer></script></body>');
+  const headers = new Headers(response.headers);
+  headers.delete("content-length");
+  headers.delete("content-encoding");
+  return new Response(enhancedText, { status: response.status, statusText: response.statusText, headers });
 }
 
 self.addEventListener("install", (event) => {
