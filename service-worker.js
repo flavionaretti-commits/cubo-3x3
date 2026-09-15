@@ -1,4 +1,4 @@
-const CACHE_NAME = "cubo-3x3-github-v3-pixelart-gallery";
+const CACHE_NAME = "cubo-3x3-github-v4-pixelart-permanent";
 const CACHE_PREFIX = "cubo-3x3-";
 const INDEX_URL = new URL("./index.html", self.location.href).toString();
 const PIXEL_URL = new URL("./pixel-art.html", self.location.href).toString();
@@ -8,7 +8,7 @@ const PRECACHE_URLS = [
   "./pixel-art.html",
   "./pixel-art.css",
   "./pixel-art.js",
-  "./pixel-art-link.js",
+  "./pixel-art-link.js?v=4",
   "./manifest.webmanifest",
   "./favicon.svg",
   "./apple-touch-icon.png",
@@ -41,7 +41,7 @@ async function addPixelArtEntry(response) {
   const text = await response.text();
   const enhancedText = text.includes("pixel-art-link.js")
     ? text
-    : text.replace("</body>", '<script src="./pixel-art-link.js" defer></script></body>');
+    : text.replace("</body>", '<script src="./pixel-art-link.js?v=4" defer></script></body>');
   const headers = new Headers(response.headers);
   headers.delete("content-length");
   headers.delete("content-encoding");
